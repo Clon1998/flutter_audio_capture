@@ -25,7 +25,7 @@ public class AudioCapture {
 
     let inputNode = audioEngine.inputNode
     let inputFormat  = inputNode.inputFormat(forBus: 0)
-    try audioSession.setActive(true)
+    try AVAudioSession.sharedInstance().setActive(true)
     try! audioEngine.start()
     inputNode.installTap(onBus: 0,
                           bufferSize: bufferSize,
@@ -61,7 +61,7 @@ public class AudioCapture {
   }
 
   public func stopSession() throws {
-    try audioSession.setActive(false)
+    try AVAudioSession.sharedInstance().setActive(false)
     audioEngine.inputNode.removeTap(onBus: 0)
     audioEngine.stop()
   }
