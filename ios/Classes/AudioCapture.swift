@@ -10,7 +10,7 @@ public class AudioCapture {
     try audioSession.setCategory(AVAudioSession.Category.playAndRecord,
                                   mode: AVAudioSession.Mode.default,
                                  options: [.defaultToSpeaker, .mixWithOthers, .allowBluetoothA2DP, .allowAirPlay, .allowBluetooth])
-    try audioSession.setActive(true)
+    try audioSession.setActive(false)
       }
       catch let err {
           print(err)
@@ -23,7 +23,7 @@ public class AudioCapture {
   }
   
   public func startSession(bufferSize: UInt32, sampleRate: Double, cb: @escaping (_ buffer: Array<Float>) -> Void) throws {
-  
+    try audioSession.setActive(true)
     let inputNode = audioEngine.inputNode
     let inputFormat  = inputNode.inputFormat(forBus: 0)
     try! audioEngine.start()
@@ -61,6 +61,7 @@ public class AudioCapture {
   }
 
   public func stopSession() throws {
+    try audioSession.setActive(false)
     audioEngine.inputNode.removeTap(onBus: 0)
     audioEngine.stop()
   }
