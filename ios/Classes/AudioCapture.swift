@@ -7,9 +7,9 @@ public class AudioCapture {
   init() {
       do{
     let audioSession: AVAudioSession = AVAudioSession.sharedInstance()
-    try audioSession.setCategory(AVAudioSession.Category.playAndRecord,
-                                  mode: AVAudioSession.Mode.default,
-                                 options: [.defaultToSpeaker, .mixWithOthers, .allowBluetoothA2DP, .allowAirPlay, .allowBluetooth])
+    try audioSession.setCategory(AVAudioSession.Category.record,
+                                  mode: AVAudioSession.Mode.measurement,
+                                 options: [.mixWithOthers])
     try audioSession.setActive(true)
       }
       catch let err {
