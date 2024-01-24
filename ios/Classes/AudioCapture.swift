@@ -10,7 +10,6 @@ public class AudioCapture {
     try audioSession.setCategory(AVAudioSession.Category.record,
                                   mode: AVAudioSession.Mode.measurement,
                                  options: [.mixWithOthers])
-    try audioSession.setActive(true)
       }
       catch let err {
           print(err)
@@ -23,9 +22,10 @@ public class AudioCapture {
   }
   
   public func startSession(bufferSize: UInt32, sampleRate: Double, cb: @escaping (_ buffer: Array<Float>) -> Void) throws {
-  
+
     let inputNode = audioEngine.inputNode
     let inputFormat  = inputNode.inputFormat(forBus: 0)
+    try audioSession.setActive(true)
     try! audioEngine.start()
     inputNode.installTap(onBus: 0,
                           bufferSize: bufferSize,
@@ -61,6 +61,7 @@ public class AudioCapture {
   }
 
   public func stopSession() throws {
+    try audioSession.setActive(false)
     audioEngine.inputNode.removeTap(onBus: 0)
     audioEngine.stop()
   }
