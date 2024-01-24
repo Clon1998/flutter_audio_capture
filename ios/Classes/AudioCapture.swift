@@ -25,10 +25,12 @@ public class AudioCapture {
   
   public func startSession(bufferSize: UInt32, sampleRate: Double, cb: @escaping (_ buffer: Array<Float>) -> Void) throws {
     if audioSessionStarted {
-      try AVAudioSession.sharedInstance().setActive(true)
+      let result = try AVAudioSession.sharedInstance().setActive(true)
       audioSessionStarted = true
-    }
 
+      print("Audio session active: \(result)")
+    }
+    print("Start session")
     let inputNode = audioEngine.inputNode
     let inputFormat  = inputNode.inputFormat(forBus: 0)
     try! audioEngine.start()
